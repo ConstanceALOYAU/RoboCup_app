@@ -70,4 +70,6 @@ dependencies {
     // Dépendance pour le WebSocket
     implementation(libs.okhttp)
     implementation(libs.androidx.appcompat.v161)
+    // pour la vidéo
+    implementation (libs.exoplayer)
 }
