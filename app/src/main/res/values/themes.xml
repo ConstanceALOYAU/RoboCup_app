@@ -3,10 +3,20 @@
 
         <!-- Base application theme -->
         <style name="Theme.RoboCup" parent="Theme.AppCompat.Light.DarkActionBar">
-            <!-- Customize your theme here -->
-            <item name="colorPrimary">@color/purple_500</item>
-            <item name="colorPrimaryDark">@color/purple_700</item>
-            <item name="colorAccent">@color/teal_200</item>
+            <!-- Primary branding color (utilisé pour la barre d'application) -->
+            <item name="colorPrimary">@color/robocup_primary</item>
+            <!-- Darker version of primary branding color (utilisé pour la barre d'état sur les versions modernes d'Android) -->
+            <item name="colorPrimaryDark">@color/robocup_primary_dark</item>
+            <!-- Accent color (utilisé pour les éléments interactifs) -->
+            <item name="colorAccent">@color/robocup_accent</item>
+            <!-- Fond de l'application -->
+            <item name="android:windowBackground">@color/robocup_background</item>
+            <!-- Texte principal de l'application -->
+            <item name="android:textColorPrimary">@color/robocup_text</item>
+            <!-- Texte secondaire -->
+            <item name="android:textColorSecondary">@color/robocup_text_secondary</item>
+            <!-- Couleur de la barre de statut -->
+            <item name="android:statusBarColor">@color/robocup_primary_dark</item>
         </style>
 
 </resources>

@@ -24,11 +24,12 @@ class MainActivity : AppCompatActivity(), SurfaceHolder.Callback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        // Supprimer le titre par défaut dans la Toolbar
+        supportActionBar?.hide()
 
         rosbridgeURL = "ws://192.168.1.7:9090"
 
         // Associer les vues
-        titleTextView = findViewById(R.id.title)
         ipTextView = findViewById(R.id.ip)
         ipRBview = findViewById(R.id.ip_rb)
 
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity(), SurfaceHolder.Callback {
         rosbridgeClient.connect()
 
         // Configurer SurfaceView et MediaPlayer pour la vidéo
-        val surfaceView = findViewById<SurfaceView>(R.id.surfaceViewL)
+        val surfaceView = findViewById<SurfaceView>(R.id.ViewFL)
         val surfaceHolder = surfaceView.holder
         surfaceHolder.addCallback(this)  // Ajout du callback ici
     }
