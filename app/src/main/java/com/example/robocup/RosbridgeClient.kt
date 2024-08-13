@@ -1,4 +1,5 @@
 package com.example.robocup
+
 import okhttp3.*
 import java.util.concurrent.TimeUnit
 import android.util.Log
@@ -11,6 +12,7 @@ class RosbridgeClient(private val url: String, private val activity: MainActivit
     private lateinit var ws: WebSocket
     private var isConnected = false
     private val reconnectDelay = 5000L // 5 secondes
+    private var messageReceivedListener: ((String) -> Unit)? = null
 
     fun connect() {
         client = OkHttpClient.Builder()
@@ -27,16 +29,14 @@ class RosbridgeClient(private val url: String, private val activity: MainActivit
                 super.onOpen(webSocket, response)
                 isConnected = true
                 Log.d("RosbridgeClient", "Connected to ROSBRIDGE")
-
-                // Exemple d'abonnement à un topic
-                subscribe("/chatter")
+                // Aucun abonnement automatique ici, tout est géré par l'activité
             }
 
             override fun onMessage(webSocket: WebSocket, text: String) {
                 super.onMessage(webSocket, text)
                 Log.d("RosbridgeClient", "Message received: $text")
-                // Mettre à jour l'interface utilisateur
-                activity.updateUIWithMessage(text)
+                // Appel du listener pour traiter le message reçu
+                messageReceivedListener?.invoke(text)
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
@@ -57,7 +57,6 @@ class RosbridgeClient(private val url: String, private val activity: MainActivit
         })
     }
 
-
     private fun retryConnection() {
         if (!isConnected) {
             Log.d("RosbridgeClient", "Attempting to reconnect in $reconnectDelay ms")
@@ -71,8 +70,7 @@ class RosbridgeClient(private val url: String, private val activity: MainActivit
     fun sendMessage(message: String) {
         if (isConnected) {
             ws.send(message)
-            // Optionnellement, mettre à jour l'UI avec le message envoyé
-            activity.updateUIWithMessage("Sent: $message")
+            Log.d("RosbridgeClient", "Sent: $message")
         } else {
             Log.w("RosbridgeClient", "Cannot send message, not connected")
         }
@@ -84,7 +82,6 @@ class RosbridgeClient(private val url: String, private val activity: MainActivit
         isConnected = false
     }
 
-    // Fonctions pour interagir avec ROSBridge
     fun publish(topic: String, message: String) {
         val jsonMessage = """
             {
@@ -119,8 +116,11 @@ class RosbridgeClient(private val url: String, private val activity: MainActivit
         sendMessage(jsonMessage)
     }
 
-    fun getIsConnected(): Boolean{
+    fun getIsConnected(): Boolean {
         return isConnected
     }
-}
 
+    fun setOnMessageReceivedListener(listener: (String) -> Unit) {
+        messageReceivedListener = listener
+    }
+}

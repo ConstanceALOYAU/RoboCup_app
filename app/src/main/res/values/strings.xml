@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RoboCup</string>
+    <string name="cam_back_left">Cam Back Left</string>
 </resources>

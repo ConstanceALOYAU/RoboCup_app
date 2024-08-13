@@ -1,27 +1,25 @@
 package com.example.robocup
 
 import android.content.Context
-import android.media.MediaPlayer
-import android.net.Uri
+import android.graphics.BitmapFactory
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.text.format.Formatter
+import android.util.Base64
 import android.util.Log
-import android.view.SurfaceHolder
-import android.view.SurfaceView
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import org.json.JSONObject
 
-class MainActivity : AppCompatActivity(), SurfaceHolder.Callback {
-
+class MainActivity : AppCompatActivity() {
 
     private lateinit var rosbridgeURL: String
-    private lateinit var titleTextView: TextView
     private lateinit var ipTextView: TextView
     private lateinit var ipRBview: TextView
     private lateinit var rosbridgeClient: RosbridgeClient
-    private val mediaPlayers = mutableListOf<MediaPlayer>()
-
+    private lateinit var imageViews: List<ImageView>
+    private val cameraTopics = listOf("/camera1/image_raw", "/camera2/image_raw", "/camera3/image_raw", "/camera4/image_raw")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +32,12 @@ class MainActivity : AppCompatActivity(), SurfaceHolder.Callback {
         // Associer les vues
         ipTextView = findViewById(R.id.ip)
         ipRBview = findViewById(R.id.ip_rb)
+        imageViews = listOf(
+            findViewById(R.id.ViewFL),
+            findViewById(R.id.ViewFR),
+            findViewById(R.id.ViewBL),
+            findViewById(R.id.ViewBR)
+        )
 
         // Obtenir et afficher l'adresse IP
         try {
@@ -48,47 +52,37 @@ class MainActivity : AppCompatActivity(), SurfaceHolder.Callback {
 
         // Initialiser le client ROSBridge
         rosbridgeClient = RosbridgeClient(rosbridgeURL, this)
-
         rosbridgeClient.connect()
-        ipRBview.text = rosbridgeURL + " Connected: " + rosbridgeClient.getIsConnected()
+        ipRBview.text = "$rosbridgeURL Connected: ${rosbridgeClient.getIsConnected()}"
 
-        // Configurer les SurfaceView et MediaPlayer
-        setupSurfaceView(R.id.ViewFL, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
-        setupSurfaceView(R.id.ViewFR, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")
-        setupSurfaceView(R.id.ViewBL, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4")
-        setupSurfaceView(R.id.ViewBR, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4")
+        // Souscrire aux topics des caméras
+        subscribeToCameraTopics()
     }
 
-    private fun setupSurfaceView(viewId: Int, videoUri: String) {
-        val surfaceView = findViewById<SurfaceView>(viewId)
-        val surfaceHolder = surfaceView.holder
-        val mediaPlayer = MediaPlayer() // Créer un MediaPlayer pour cette SurfaceView
-        mediaPlayers.add(mediaPlayer) // Ajouter le MediaPlayer à la liste
+    private fun subscribeToCameraTopics() {
+        for (i in cameraTopics.indices) {
+            subscribeToCameraTopic(cameraTopics[i], imageViews[i])
+        }
+    }
 
-        surfaceHolder.addCallback(object : SurfaceHolder.Callback {
-            override fun surfaceCreated(holder: SurfaceHolder) {
-                mediaPlayer.setDisplay(holder)
-                mediaPlayer.setDataSource(this@MainActivity, Uri.parse(videoUri))
-                mediaPlayer.prepareAsync()
-                mediaPlayer.setOnPreparedListener {
-                    mediaPlayer.start()
+    private fun subscribeToCameraTopic(topic: String, imageView: ImageView) {
+        val subscribeMessage = JSONObject().apply {
+            put("op", "subscribe")
+            put("topic", topic)
+        }
+
+        rosbridgeClient.sendMessage(subscribeMessage.toString())
+
+        rosbridgeClient.setOnMessageReceivedListener { message: String ->
+            val jsonMessage = JSONObject(message)
+            if (jsonMessage.has("data")) {
+                val imageString = jsonMessage.getString("data")
+                val imageData = Base64.decode(imageString, Base64.DEFAULT)
+                val bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
+                runOnUiThread {
+                    imageView.setImageBitmap(bitmap)
                 }
             }
-
-            override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-                // Gérer les changements de surface si nécessaire
-            }
-
-            override fun surfaceDestroyed(holder: SurfaceHolder) {
-                mediaPlayer.release()
-            }
-        })
-    }
-
-    // Mettre à jour l'interface utilisateur avec le message reçu
-    fun updateUIWithMessage(message: String) {
-        runOnUiThread {
-            titleTextView.text = message
         }
     }
 
@@ -105,15 +99,8 @@ class MainActivity : AppCompatActivity(), SurfaceHolder.Callback {
         }
     }
 
-    override fun surfaceCreated(p0: SurfaceHolder) {
-        TODO("Not yet implemented")
-    }
-
-    override fun surfaceChanged(p0: SurfaceHolder, p1: Int, p2: Int, p3: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun surfaceDestroyed(p0: SurfaceHolder) {
-        TODO("Not yet implemented")
+    override fun onDestroy() {
+        super.onDestroy()
+        rosbridgeClient.close()
     }
 }
