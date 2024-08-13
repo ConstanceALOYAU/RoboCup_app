@@ -25,14 +25,47 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <SurfaceView
-            android:id="@+id/ViewFL"
-            android:layout_width="373dp"
-            android:layout_height="188dp"
-            android:layout_weight="1" />
+        <!-- Premier LinearLayout horizontal, occupe 50% de l'espace vertical -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
+            <SurfaceView
+                android:id="@+id/ViewFL"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <SurfaceView
+                android:id="@+id/ViewFR"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <!-- Deuxième LinearLayout horizontal, occupe 50% de l'espace vertical -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <SurfaceView
+                android:id="@+id/ViewBL"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <SurfaceView
+                android:id="@+id/ViewBR"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
     </LinearLayout>
 
 

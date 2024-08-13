@@ -14,12 +14,14 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity(), SurfaceHolder.Callback {
 
+
     private lateinit var rosbridgeURL: String
     private lateinit var titleTextView: TextView
     private lateinit var ipTextView: TextView
     private lateinit var ipRBview: TextView
     private lateinit var rosbridgeClient: RosbridgeClient
-    private lateinit var player: MediaPlayer
+    private val mediaPlayers = mutableListOf<MediaPlayer>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,35 +48,41 @@ class MainActivity : AppCompatActivity(), SurfaceHolder.Callback {
 
         // Initialiser le client ROSBridge
         rosbridgeClient = RosbridgeClient(rosbridgeURL, this)
-        ipRBview.text = rosbridgeURL
+
         rosbridgeClient.connect()
+        ipRBview.text = rosbridgeURL + " Connected: " + rosbridgeClient.getIsConnected()
 
-        // Configurer SurfaceView et MediaPlayer pour la vidéo
-        val surfaceView = findViewById<SurfaceView>(R.id.ViewFL)
+        // Configurer les SurfaceView et MediaPlayer
+        setupSurfaceView(R.id.ViewFL, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+        setupSurfaceView(R.id.ViewFR, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")
+        setupSurfaceView(R.id.ViewBL, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4")
+        setupSurfaceView(R.id.ViewBR, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4")
+    }
+
+    private fun setupSurfaceView(viewId: Int, videoUri: String) {
+        val surfaceView = findViewById<SurfaceView>(viewId)
         val surfaceHolder = surfaceView.holder
-        surfaceHolder.addCallback(this)  // Ajout du callback ici
-    }
+        val mediaPlayer = MediaPlayer() // Créer un MediaPlayer pour cette SurfaceView
+        mediaPlayers.add(mediaPlayer) // Ajouter le MediaPlayer à la liste
 
-    // Implémentation de l'interface SurfaceHolder.Callback
-
-    override fun surfaceCreated(holder: SurfaceHolder) {
-        val videoUri = Uri.parse("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")  // Remplacez par l'URL de votre flux ROSBridge
-        player = MediaPlayer().apply {
-            setDataSource(this@MainActivity, videoUri)
-            setDisplay(holder)
-            prepareAsync()
-            setOnPreparedListener {
-                start()
+        surfaceHolder.addCallback(object : SurfaceHolder.Callback {
+            override fun surfaceCreated(holder: SurfaceHolder) {
+                mediaPlayer.setDisplay(holder)
+                mediaPlayer.setDataSource(this@MainActivity, Uri.parse(videoUri))
+                mediaPlayer.prepareAsync()
+                mediaPlayer.setOnPreparedListener {
+                    mediaPlayer.start()
+                }
             }
-        }
-    }
 
-    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        // Gérer les changements de surface si nécessaire
-    }
+            override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
+                // Gérer les changements de surface si nécessaire
+            }
 
-    override fun surfaceDestroyed(holder: SurfaceHolder) {
-        player.release()
+            override fun surfaceDestroyed(holder: SurfaceHolder) {
+                mediaPlayer.release()
+            }
+        })
     }
 
     // Mettre à jour l'interface utilisateur avec le message reçu
@@ -95,5 +103,17 @@ class MainActivity : AppCompatActivity(), SurfaceHolder.Callback {
             Log.e("MainActivity", "Error getting IP address: ${e.message}")
             null
         }
+    }
+
+    override fun surfaceCreated(p0: SurfaceHolder) {
+        TODO("Not yet implemented")
+    }
+
+    override fun surfaceChanged(p0: SurfaceHolder, p1: Int, p2: Int, p3: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun surfaceDestroyed(p0: SurfaceHolder) {
+        TODO("Not yet implemented")
     }
 }

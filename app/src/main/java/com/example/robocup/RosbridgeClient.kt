@@ -57,6 +57,7 @@ class RosbridgeClient(private val url: String, private val activity: MainActivit
         })
     }
 
+
     private fun retryConnection() {
         if (!isConnected) {
             Log.d("RosbridgeClient", "Attempting to reconnect in $reconnectDelay ms")
@@ -116,6 +117,10 @@ class RosbridgeClient(private val url: String, private val activity: MainActivit
         """.trimIndent()
 
         sendMessage(jsonMessage)
+    }
+
+    fun getIsConnected(): Boolean{
+        return isConnected
     }
 }
 
