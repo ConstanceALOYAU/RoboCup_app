@@ -1,5 +1,6 @@
 package com.example.robocup
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.net.wifi.WifiManager
@@ -16,11 +17,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var rosbridgeURL: String
     private lateinit var ipTextView: TextView
-    private lateinit var ipRBview: TextView
     private lateinit var rosbridgeClient: RosbridgeClient
     private lateinit var imageViews: List<ImageView>
     private val cameraTopics = listOf("/camera1/image_raw", "/camera2/image_raw", "/camera3/image_raw", "/camera4/image_raw")
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -58,6 +59,19 @@ class MainActivity : AppCompatActivity() {
 
         // Souscrire aux topics des caméras
         subscribeToCameraTopics()
+        val joystick = findViewById<JoystickView>(R.id.joystickView)
+
+        joystick.setOnTouchListener { _, _ ->
+            val direction = joystick.getDirection()
+            val x = direction.first
+            val y = direction.second
+
+            // Utilisez x et y comme vecteur directeur pour contrôler votre robot ou autre
+            println("Vecteur directeur: ($x, $y)")
+
+            true
+        }
+
     }
 
     private fun subscribeToCameraTopics() {
@@ -90,7 +104,7 @@ class MainActivity : AppCompatActivity() {
     // Fonction pour obtenir l'adresse IP de la tablette
     private fun getIPAddress(context: Context): String? {
         return try {
-            val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+            val wifiManager = context.applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
             val wifiInfo = wifiManager.connectionInfo
             val ipAddress = wifiInfo.ipAddress
             Formatter.formatIpAddress(ipAddress)

@@ -14,8 +14,10 @@ composeBom = "2024.04.01"
 okhttp = "4.9.1"
 okhttpWs = "4.9.1"
 appcompat = "1.7.0"
+virtualjoystick = "1.10.0"
 
 [libraries]
+
 androidx-appcompat-v161 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 exoplayer = { module = "com.google.android.exoplayer:exoplayer", version.ref = "exoplayer" }

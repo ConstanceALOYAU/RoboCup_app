@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
 }
 
+
 android {
     namespace = "com.example.robocup"
     compileSdk = 34
@@ -72,4 +73,5 @@ dependencies {
     implementation(libs.androidx.appcompat.v161)
     // pour la vidéo
     implementation (libs.exoplayer)
+
 }
