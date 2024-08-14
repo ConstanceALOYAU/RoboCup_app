@@ -16,21 +16,17 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/white" />
 
-    <TextView
-        android:id="@+id/ip_rb"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="500dp"
         android:orientation="vertical">
 
         <!-- Premier LinearLayout horizontal, occupe 50% de l'espace vertical -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal">
 
@@ -38,25 +34,25 @@
                 android:id="@+id/ViewFL"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_cam_front_left"
+                android:layout_weight="1"
                 android:contentDescription="cam front left"
-                android:layout_weight="1" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_cam_front_left" />
 
             <ImageView
                 android:id="@+id/ViewFR"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_cam_front_right"
+                android:layout_weight="1"
                 android:contentDescription="cam front right"
-                android:layout_weight="1" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_cam_front_right" />
         </LinearLayout>
 
         <!-- Deuxième LinearLayout horizontal, occupe 50% de l'espace vertical -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
 
@@ -64,21 +60,20 @@
                 android:id="@+id/ViewBL"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_cam_back_left"
                 android:layout_weight="1"
-                android:contentDescription="cam back left" />
+                android:contentDescription="cam back left"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_cam_back_left" />
 
             <ImageView
                 android:id="@+id/ViewBR"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:scaleType="fitCenter"
                 android:layout_weight="1"
-                android:src="@drawable/ic_cam_back_right"
-                android:contentDescription="cam back Left" />
+                android:contentDescription="cam back Left"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_cam_back_right" />
         </LinearLayout>
     </LinearLayout>
-
 
 </LinearLayout>

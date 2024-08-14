@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         // Associer les vues
         ipTextView = findViewById(R.id.ip)
-        ipRBview = findViewById(R.id.ip_rb)
+        var textString = ""
         imageViews = listOf(
             findViewById(R.id.ViewFL),
             findViewById(R.id.ViewFR),
@@ -43,17 +43,18 @@ class MainActivity : AppCompatActivity() {
         try {
             val ipAddress = getIPAddress(this)
             if (ipAddress != null) {
-                ipTextView.text = "IP Address: $ipAddress"
+                textString = "IP Address: $ipAddress"
             }
         } catch (e: Exception) {
-            ipTextView.text = "Error getting IP Address"
+            textString = "Error getting IP Address"
             Log.e("MainActivity", "Exception in getIPAddress: ${e.message}")
         }
 
         // Initialiser le client ROSBridge
         rosbridgeClient = RosbridgeClient(rosbridgeURL, this)
         rosbridgeClient.connect()
-        ipRBview.text = "$rosbridgeURL Connected: ${rosbridgeClient.getIsConnected()}"
+        textString += " $rosbridgeURL Connected: ${rosbridgeClient.getIsConnected()}"
+        ipTextView.text = textString
 
         // Souscrire aux topics des caméras
         subscribeToCameraTopics()
