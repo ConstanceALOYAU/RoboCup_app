@@ -17,13 +17,15 @@
         android:textColor="@android:color/white" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginBottom="500dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:orientation="vertical">
 
         <!-- Premier LinearLayout horizontal, occupe 50% de l'espace vertical -->
+
+        <!-- Deuxième LinearLayout horizontal, occupe 50% de l'espace vertical -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,23 +51,12 @@
                 android:src="@drawable/ic_cam_front_right" />
         </LinearLayout>
 
-        <!-- Deuxième LinearLayout horizontal, occupe 50% de l'espace vertical -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <com.example.robocup.JoystickView
-                    android:id="@+id/joystickView"
-                    android:layout_width="300dp"
-                    android:layout_height="300dp"
-                    android:layout_alignParentStart="true"/>
-
-            </RelativeLayout>
             <ImageView
                 android:id="@+id/ViewBL"
                 android:layout_width="0dp"
@@ -84,6 +75,39 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_cam_back_right" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_height="fill_parent"
+                android:layout_width="0dp">
+
+                <com.example.robocup.JoystickView
+                    android:id="@+id/joystickView"
+                    android:layout_width="250dp"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_height="fill_parent"
+                android:layout_width="0dp">
+                    <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:text="Test">
+
+                </TextView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

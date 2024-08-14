@@ -1,5 +1,4 @@
 package com.example.robocup
-
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -23,6 +22,9 @@ class JoystickView @JvmOverloads constructor(
     private var handleX: Float = 0f
     private var handleY: Float = 0f
     private var handleRadius: Float = 0f
+    private var valueX: Float = 0f
+    private var valueY: Float = 0f
+
 
     private val paintBackground = Paint().apply {
         color = Color.GRAY
@@ -35,7 +37,7 @@ class JoystickView @JvmOverloads constructor(
     }
 
     init {
-        // Set initial handle position
+        // Initialize handle position to the center
         handleX = joystickCenterX
         handleY = joystickCenterY
     }
@@ -47,6 +49,7 @@ class JoystickView @JvmOverloads constructor(
         joystickRadius = min(w, h) / 3f
         handleRadius = joystickRadius / 3f
 
+        // Reset the handle position to the center
         handleX = joystickCenterX
         handleY = joystickCenterY
     }
@@ -80,6 +83,9 @@ class JoystickView @JvmOverloads constructor(
 
                 // Invalidate to request a redraw
                 invalidate()
+                valueX = (handleX - joystickCenterX) / joystickRadius
+                valueY = (handleY - joystickCenterY) / joystickRadius
+                println(" Value Joystique $valueX, $valueY")
 
                 true
             }
@@ -96,8 +102,7 @@ class JoystickView @JvmOverloads constructor(
 
     fun getDirection(): Pair<Float, Float> {
         // Calculate the normalized direction vector
-        val dx = (handleX - joystickCenterX) / joystickRadius
-        val dy = (handleY - joystickCenterY) / joystickRadius
-        return Pair(dx, dy)
+        return Pair(valueX, valueY)
     }
+
 }

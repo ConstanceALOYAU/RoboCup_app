@@ -59,18 +59,6 @@ class MainActivity : AppCompatActivity() {
 
         // Souscrire aux topics des caméras
         subscribeToCameraTopics()
-        val joystick = findViewById<JoystickView>(R.id.joystickView)
-
-        joystick.setOnTouchListener { _, _ ->
-            val direction = joystick.getDirection()
-            val x = direction.first
-            val y = direction.second
-
-            // Utilisez x et y comme vecteur directeur pour contrôler votre robot ou autre
-            println("Vecteur directeur: ($x, $y)")
-
-            true
-        }
 
     }
 
