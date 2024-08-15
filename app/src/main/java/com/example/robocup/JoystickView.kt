@@ -11,7 +11,6 @@ import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 import kotlin.math.sqrt
-
 class JoystickView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : View(context, attrs) {
@@ -25,6 +24,16 @@ class JoystickView @JvmOverloads constructor(
     private var valueX: Float = 0f
     private var valueY: Float = 0f
 
+    // Interface pour communiquer avec l'activité
+    interface JoystickListener {
+        fun onJoystickMoved(xPercent: Float, yPercent: Float)
+    }
+
+    private var joystickListener: JoystickListener? = null
+
+    fun setJoystickListener(listener: JoystickListener) {
+        this.joystickListener = listener
+    }
 
     private val paintBackground = Paint().apply {
         color = Color.GRAY
@@ -63,7 +72,7 @@ class JoystickView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        return when (event.action) {
+        when (event.action) {
             MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
                 // Calculate the vector from the center to the touch point
                 val dx = event.x - joystickCenterX
@@ -81,28 +90,30 @@ class JoystickView @JvmOverloads constructor(
                     handleY = joystickCenterY + joystickRadius * sin(angle)
                 }
 
+                // Normalize the values to [-1, 1]
+                valueX = (handleX - joystickCenterX) / joystickRadius
+                valueY = -1 * ((handleY - joystickCenterY) / joystickRadius)
+
+                // Notify the listener
+                joystickListener?.onJoystickMoved(valueX, valueY)
+
                 // Invalidate to request a redraw
                 invalidate()
-                valueX = (handleX - joystickCenterX) / joystickRadius
-                valueY = (handleY - joystickCenterY) / joystickRadius
-                println(" Value Joystique $valueX, $valueY")
-
-                true
             }
+
             MotionEvent.ACTION_UP -> {
                 // Return the handle to the center when released
                 handleX = joystickCenterX
                 handleY = joystickCenterY
                 invalidate()
-                true
-            }
-            else -> false
-        }
-    }
 
-    fun getDirection(): Pair<Float, Float> {
-        // Calculate the normalized direction vector
-        return Pair(valueX, valueY)
+                // Reset values and notify listener
+                valueX = 0f
+                valueY = 0f
+                joystickListener?.onJoystickMoved(valueX, valueY)
+            }
+        }
+        return true
     }
 
 }

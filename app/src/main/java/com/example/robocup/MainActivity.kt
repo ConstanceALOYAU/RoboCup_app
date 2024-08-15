@@ -3,25 +3,26 @@ package com.example.robocup
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.BitmapFactory
-import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.text.format.Formatter
 import android.util.Base64
 import android.util.Log
+import android.view.MotionEvent
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONObject
+import android.net.wifi.WifiManager
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
 
     private lateinit var rosbridgeURL: String
     private lateinit var ipTextView: TextView
     private lateinit var rosbridgeClient: RosbridgeClient
     private lateinit var imageViews: List<ImageView>
-    private val cameraTopics = listOf("/camera1/image_raw", "/camera2/image_raw", "/camera3/image_raw", "/camera4/image_raw")
+    private lateinit var joystickView: JoystickView
+    private val cameraTopics = listOf("RCR/cam1/image_raw", "RCR/cam2/image_raw", "RCR/cam3/image_raw", "RCR/cam4/image_raw")
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -40,26 +41,43 @@ class MainActivity : AppCompatActivity() {
             findViewById(R.id.ViewBR)
         )
 
-        // Obtenir et afficher l'adresse IP
-        try {
-            val ipAddress = getIPAddress(this)
-            if (ipAddress != null) {
-                textString = "IP Address: $ipAddress"
-            }
-        } catch (e: Exception) {
-            textString = "Error getting IP Address"
-            Log.e("MainActivity", "Exception in getIPAddress: ${e.message}")
-        }
+        joystickView = findViewById(R.id.joystickView)
+        joystickView.setJoystickListener(this) // Set the listener
+
 
         // Initialiser le client ROSBridge
         rosbridgeClient = RosbridgeClient(rosbridgeURL, this)
         rosbridgeClient.connect()
-        textString += " $rosbridgeURL Connected: ${rosbridgeClient.getIsConnected()}"
+        textString = "IP Address: 192.168.1.12 || $rosbridgeURL Connected: ${rosbridgeClient.getIsConnected()}"
         ipTextView.text = textString
 
         // Souscrire aux topics des caméras
         subscribeToCameraTopics()
+    }
 
+    override fun onJoystickMoved(xPercent: Float, yPercent: Float) {
+        // Appeler la méthode pour envoyer les valeurs du joystick via ROSBridge
+        sendJoystickDirection(xPercent, yPercent)
+    }
+
+    private fun sendJoystickDirection(x: Float, y: Float) {
+        // Créer le message JSON à envoyer via ROSBridge
+        println("DEBUG $x , $y" )
+        val message = JSONObject().apply {
+            put("linear", JSONObject().apply {
+                put("x", x)
+                put("y", 0)
+                put("z", 0)
+            })
+            put("angular", JSONObject().apply {
+                put("x", 0)
+                put("y", 0)
+                put("z", y)
+            })
+        }
+
+        // Envoyer le message au topic ROS souhaité
+        rosbridgeClient.publish("/cmd_vel", message.toString())
     }
 
     private fun subscribeToCameraTopics() {
@@ -86,19 +104,6 @@ class MainActivity : AppCompatActivity() {
                     imageView.setImageBitmap(bitmap)
                 }
             }
-        }
-    }
-
-    // Fonction pour obtenir l'adresse IP de la tablette
-    private fun getIPAddress(context: Context): String? {
-        return try {
-            val wifiManager = context.applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
-            val wifiInfo = wifiManager.connectionInfo
-            val ipAddress = wifiInfo.ipAddress
-            Formatter.formatIpAddress(ipAddress)
-        } catch (e: Exception) {
-            Log.e("MainActivity", "Error getting IP address: ${e.message}")
-            null
         }
     }
 
