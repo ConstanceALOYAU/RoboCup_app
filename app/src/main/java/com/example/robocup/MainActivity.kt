@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
 
         // Associer les vues
         ipTextView = findViewById(R.id.ip)
-        var textString = ""
+
         imageViews = listOf(
             findViewById(R.id.ViewFL),
             findViewById(R.id.ViewFR),
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         // Initialiser le client ROSBridge
         rosbridgeClient = RosbridgeClient(rosbridgeURL, this)
         rosbridgeClient.connect()
-        textString = "IP Address: 192.168.1.12 || $rosbridgeURL Connected: ${rosbridgeClient.getIsConnected()}"
+        var textString = "IP Address: 192.168.1.12 || $rosbridgeURL Connected: ${rosbridgeClient.getIsConnected()}"
         ipTextView.text = textString
 
         // Souscrire aux topics des caméras

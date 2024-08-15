@@ -11,10 +11,12 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.4"
 activityCompose = "1.9.1"
 composeBom = "2024.04.01"
+materialVersion = "1.2.0-rc01"
 okhttp = "4.9.1"
 okhttpWs = "4.9.1"
 appcompat = "1.7.0"
 virtualjoystick = "1.10.0"
+material = "1.12.0"
 
 [libraries]
 
@@ -35,9 +37,11 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+material-v120rc01 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-ws = { module = "com.squareup.okhttp3:okhttp-ws", version.ref = "okhttpWs" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

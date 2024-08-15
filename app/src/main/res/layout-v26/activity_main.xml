@@ -89,21 +89,85 @@
 
                 <com.example.robocup.JoystickView
                     android:id="@+id/joystickView"
-                    android:layout_width="250dp"
-                    android:layout_height="match_parent" />
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_width="0dp">
-                    <TextView
-                    android:layout_width="80dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:text="Test">
+                    android:orientation="vertical"
+                    android:layout_weight="1">
 
-                </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:layout_gravity="center"
+                        android:textColor="@android:color/white"
+                        android:text="Flipper Front Left "/>
 
+                    <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
+                        android:id="@+id/sliderAvantGauche"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:min="-180"
+                        android:max="180"
+                        android:progress="0"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/white"
+                        android:layout_gravity="center"
+                        android:text=" Flipper Front Right "/>
+
+                    <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
+                        android:id="@+id/sliderAvantDroit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:min="-180"
+                        android:max="180"
+                        android:progress="0"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:layout_gravity="center"
+                        android:textColor="@android:color/white"
+                        android:text=" Flipper Back "/>
+
+                    <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
+                        android:id="@+id/sliderBack"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:min="-180"
+                        android:max="180"
+                        android:progress="0"/>
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
