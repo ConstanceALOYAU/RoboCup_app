@@ -115,7 +115,7 @@
                         android:text="Flipper Front Left "/>
 
                     <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
-                        android:id="@+id/sliderAvantGauche"
+                        android:id="@+id/sliderFrontLeft"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:min="-180"
@@ -138,7 +138,7 @@
                         android:text=" Flipper Front Right "/>
 
                     <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
-                        android:id="@+id/sliderAvantDroit"
+                        android:id="@+id/sliderFrontRight"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:min="-180"

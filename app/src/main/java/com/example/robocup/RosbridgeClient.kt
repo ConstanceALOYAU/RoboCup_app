@@ -28,6 +28,7 @@ class RosbridgeClient(private val url: String, private val activity: MainActivit
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 super.onOpen(webSocket, response)
                 isConnected = true
+                activity.updateRosBridgeConnexionStatus(isConnected)
                 Log.d("RosbridgeClient", "Connected to ROSBRIDGE")
                 // Aucun abonnement automatique ici, tout est géré par l'activité
             }
@@ -90,7 +91,7 @@ class RosbridgeClient(private val url: String, private val activity: MainActivit
                 "msg": $message
             }
         """.trimIndent()
-
+        println("Debug publish message"+ jsonMessage.toString())
         sendMessage(jsonMessage)
     }
 
