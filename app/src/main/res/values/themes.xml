@@ -2,7 +2,10 @@
 <resources>
 
         <!-- Base application theme -->
-        <style name="Theme.RoboCup" parent="Theme.AppCompat.Light.DarkActionBar">
+        <style name="Theme.RoboCup" parent="Theme.AppCompat.Light.NoActionBar">
+
+            <item name="windowActionBar">false</item>
+            <item name="windowNoTitle">true</item>
             <!-- Primary branding color (utilisé pour la barre d'application) -->
             <item name="colorPrimary">@color/robocup_primary</item>
             <!-- Darker version of primary branding color (utilisé pour la barre d'état sur les versions modernes d'Android) -->

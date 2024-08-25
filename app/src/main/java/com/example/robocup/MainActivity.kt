@@ -2,6 +2,7 @@ package com.example.robocup
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.format.Formatter
@@ -11,9 +12,12 @@ import android.view.MotionEvent
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import org.json.JSONObject
 import android.net.wifi.WifiManager
 import android.widget.SeekBar
+import android.view.Menu
+import android.view.MenuItem
 
 class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
 
@@ -28,7 +32,9 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         // Supprimer le titre par défaut dans la Toolbar
-        supportActionBar?.hide()
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        // Configuration de la Toolbar
 
         rosbridgeURL = "ws://192.168.1.50:9090"
 
@@ -85,6 +91,28 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         })
         // Souscrire aux topics des caméras
         subscribeToCameraTopics()
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_control_arm -> {
+                // Lancer l'activité de contrôle du bras articulé
+                val intent = Intent(this, ControlArmActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.action_settings -> {
+                // Lancer l'activité des paramètres
+                //val intent = Intent(this, SettingsActivity::class.java)
+                //startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
     public fun updateRosBridgeConnexionStatus(status: Boolean){
         val textString = "IP Address: 192.168.1.12 || $rosbridgeURL Connected: ${rosbridgeClient.getIsConnected()}"

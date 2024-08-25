@@ -62,6 +62,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.preference)
+    implementation(libs.androidx.preference.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -74,6 +77,9 @@ dependencies {
     implementation(libs.androidx.appcompat.v161)
     // pour la vidéo
     implementation (libs.exoplayer)
+    implementation(libs.material.v121)
+    implementation(libs.androidx.constraintlayout)
+
     implementation("com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:0.7.1")
 
 
