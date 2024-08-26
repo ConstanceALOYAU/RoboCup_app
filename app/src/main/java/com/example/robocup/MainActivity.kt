@@ -1,28 +1,19 @@
 package com.example.robocup
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.hardware.biometrics.BiometricManager.Strings
 import android.os.Bundle
-import android.text.format.Formatter
 import android.util.Base64
 import android.util.Log
-import android.view.MotionEvent
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import org.json.JSONObject
-import android.net.wifi.WifiManager
 import android.widget.SeekBar
-import android.view.Menu
-import android.view.MenuItem
-import androidx.collection.longListOf
 
 class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
-
 
     private lateinit var appConfig: AppConfig
     private lateinit var ipTextView: TextView
@@ -34,10 +25,39 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         // Supprimer le titre par défaut dans la Toolbar
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        // Configurer la Toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        // Configuration de la Toolbar
+        // Supprimer le titre par défaut dans la Toolbar
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        // Boutons de la Toolbar
+        val buttonOne = findViewById<ImageView>(R.id.button_one)
+        val buttonTwo = findViewById<ImageView>(R.id.button_two)
+        val buttonTitle = findViewById<Button>(R.id.button_title)
+
+        // Configurer les clics des boutons
+        buttonOne.setOnClickListener {
+            // Lancer "ControlArmActivity"
+            val intent = Intent(this, ControlArmActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonTwo.setOnClickListener {
+            // Lancer "SettingsActivity"
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonTitle.setOnClickListener {
+            // Lancer "MainActivity"
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         appConfig = AppConfig(this)
 
@@ -58,7 +78,7 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         )
 
         joystickView = findViewById(R.id.joystickView)
-        joystickView.setJoystickListener(this) // Set the listener
+        joystickView.setJoystickListener(this)
 
         val sliderAvantGauche = findViewById<SeekBar>(R.id.sliderFrontLeft)
         val sliderAvantDroit = findViewById<SeekBar>(R.id.sliderFrontRight)
@@ -67,9 +87,8 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         // Initialiser le client ROSBridge
         rosbridgeClient = RosbridgeClient(appConfig.rosbridgeUrl, this)
         rosbridgeClient.connect()
-        val textString = "IP Address: 192.168.1.12 || ${appConfig.rosbridgeUrl} Connected: ${rosbridgeClient.getIsConnected()}"
+        val textString = "RosBridge URL: ${appConfig.rosbridgeUrl} Connected: ${rosbridgeClient.getIsConnected()}"
         ipTextView.text = textString
-
 
         // Gérer les événements des sliders
         sliderAvantGauche.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -98,34 +117,9 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
+
         // Souscrire aux topics des caméras
         subscribeToCameraTopics()
-    }
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_toolbar, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_control_arm -> {
-                // Lancer l'activité de contrôle du bras articulé
-                val intent = Intent(this, ControlArmActivity::class.java)
-                startActivity(intent)
-                true
-            }
-            R.id.action_settings -> {
-                // Lancer l'activité des paramètres
-                val intent = Intent(this, SettingsActivity::class.java)
-                startActivity(intent)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-    public fun updateRosBridgeConnexionStatus(status: Boolean){
-        val textString = "IP Address: 192.168.1.12 || ${appConfig.rosbridgeUrl} Connected: ${rosbridgeClient.getIsConnected()}"
-        ipTextView.text = textString
     }
 
     override fun onJoystickMoved(xPercent: Float, yPercent: Float) {
@@ -135,7 +129,6 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
 
     private fun sendJoystickDirection(x: Float, y: Float) {
         // Créer le message JSON à envoyer via ROSBridge
-        println("DEBUG $x , $y" )
         val message = JSONObject().apply {
             put("linear", JSONObject().apply {
                 put("x", x)
@@ -179,17 +172,21 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
             }
         }
     }
-    private fun sendFlipperCommand(topic : String, flipper: String, angle: Int) {
+
+    private fun sendFlipperCommand(topic: String, flipper: String, angle: Int) {
         // Créer le message JSON à envoyer via ROSBridge
         val message = JSONObject().apply {
-                put("flipper", flipper)
-                put("angle", angle)
+            put("flipper", flipper)
+            put("angle", angle)
         }
-        println("Debug Flipper message"+ message.toString())
+
         // Envoyer le message au topic ROSBridge
         rosbridgeClient.publish(topic, message.toString())
     }
-
+    fun updateRosBridgeConnexionStatus(status: Boolean){
+        val textString = "RosBridge URL: ${appConfig.rosbridgeUrl} Connected: $status"
+        ipTextView.text = textString
+    }
     override fun onDestroy() {
         super.onDestroy()
         rosbridgeClient.close()
