@@ -23,11 +23,13 @@
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
-            android:theme="@style/Theme.RoboCup"/>
+            android:theme="@style/Theme.RoboCup"
+            android:screenOrientation="userLandscape"/>
         <activity
             android:name=".ControlArmActivity"
             android:exported="false"
-            android:theme="@style/Theme.RoboCup"/>
+            android:theme="@style/Theme.RoboCup"
+            android:screenOrientation="userLandscape"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
