@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         }
 
         // Envoyer le message au topic ROS souhaité
-        rosbridgeClient.publish("/cmd_vel", message.toString())
+        rosbridgeClient.publish(appConfig.topicJoy, message.toString())
     }
 
     private fun subscribeToCameraTopics() {
@@ -165,6 +165,7 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
             if (jsonMessage.has("data")) {
                 val imageString = jsonMessage.getString("data")
                 val imageData = Base64.decode(imageString, Base64.DEFAULT)
+                println("DEBUG Image receive" )
                 val bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
                 runOnUiThread {
                     imageView.setImageBitmap(bitmap)
