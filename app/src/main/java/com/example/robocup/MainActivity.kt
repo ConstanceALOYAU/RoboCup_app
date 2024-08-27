@@ -3,6 +3,8 @@ package com.example.robocup
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Base64
 import android.util.Log
 import android.widget.Button
@@ -119,7 +121,10 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         })
 
         // Souscrire aux topics des caméras
-        subscribeToCameraTopics()
+        Handler(Looper.getMainLooper()).postDelayed({
+            subscribeToCameraTopics()
+        }, 1000)
+        //subscribeToCameraTopics()
     }
 
     override fun onJoystickMoved(xPercent: Float, yPercent: Float) {
@@ -130,16 +135,9 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
     private fun sendJoystickDirection(x: Float, y: Float) {
         // Créer le message JSON à envoyer via ROSBridge
         val message = JSONObject().apply {
-            put("linear", JSONObject().apply {
-                put("x", x)
-                put("y", 0)
-                put("z", 0)
-            })
-            put("angular", JSONObject().apply {
-                put("x", 0)
-                put("y", 0)
-                put("z", y)
-            })
+            put("x", x)
+            put("y", y)
+            put("z", 0)
         }
 
         // Envoyer le message au topic ROS souhaité
@@ -161,24 +159,43 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         rosbridgeClient.sendMessage(subscribeMessage.toString())
 
         rosbridgeClient.setOnMessageReceivedListener { message: String ->
-            val jsonMessage = JSONObject(message)
-            if (jsonMessage.has("data")) {
-                val imageString = jsonMessage.getString("data")
-                val imageData = Base64.decode(imageString, Base64.DEFAULT)
-                println("DEBUG Image receive" )
-                val bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
-                runOnUiThread {
-                    imageView.setImageBitmap(bitmap)
+            try {
+                val jsonMessage = JSONObject(message)
+                if (jsonMessage.has("msg")) {
+                    val msg = jsonMessage.getJSONObject("msg")
+                    if (msg.has("data")) {
+                        val imageString = msg.getString("data")
+                        val imageData = Base64.decode(imageString, Base64.DEFAULT)
+
+                        if (imageData != null && imageData.isNotEmpty()) {
+                            val bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
+                            if (bitmap != null) {
+                                runOnUiThread {
+                                    imageView.setImageBitmap(bitmap)
+                                }
+                            } else {
+                                Log.e("Bitmap", "Échec du décodage de l'image, bitmap est nul.")
+                            }
+                        } else {
+                            Log.e("ImageData", "Les données décodées sont vides ou nulles.")
+                        }
+                    } else {
+                        Log.d("Rosbridge", "Le message reçu ne contient pas de clé 'data'")
+                    }
+                } else {
+                    Log.d("Rosbridge", "Le message reçu ne contient pas de clé 'msg'")
                 }
+            } catch (e: Exception) {
+                Log.e("Rosbridge", "Erreur lors du traitement du message: ${e.message}")
             }
         }
+
     }
 
     private fun sendFlipperCommand(topic: String, flipper: String, angle: Int) {
         // Créer le message JSON à envoyer via ROSBridge
         val message = JSONObject().apply {
-            put("flipper", flipper)
-            put("angle", angle)
+            put("data", angle.toString())
         }
 
         // Envoyer le message au topic ROSBridge

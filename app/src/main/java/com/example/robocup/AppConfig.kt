@@ -11,15 +11,15 @@ class AppConfig(context: Context) {
         private const val PREFS_NAME = "app_config_prefs"
 
         // Default values for ROSBridge and topics
-        private const val DEFAULT_ROSBRIDGE_URL = "ws://192.168.1.50:9090"
-        private const val DEFAULT_TOPIC_JOY = "RCR/joy/cmd_vel"
-        private const val DEFAULT_TOPIC_CAM1 = "RCR/cam1/image_raw"
-        private const val DEFAULT_TOPIC_CAM2 = "RCR/cam2/image_raw"
-        private const val DEFAULT_TOPIC_CAM3 = "RCR/cam3/image_raw"
-        private const val DEFAULT_TOPIC_CAM4 = "RCR/cam4/image_raw"
-        private const val DEFAULT_TOPIC_FLIPPER_FRONT_LEFT = "RCR/FLF/flipper_control"
-        private const val DEFAULT_TOPIC_FLIPPER_FRONT_RIGHT = "RCR/FRF/flipper_control"
-        private const val DEFAULT_TOPIC_FLIPPER_BACK = "RCR/BF/flipper_control"
+        private const val DEFAULT_ROSBRIDGE_URL = "ws://10.0.0.237:9090"
+        private const val DEFAULT_TOPIC_JOY = "/RCR/joy/cmd_vel"
+        private const val DEFAULT_TOPIC_CAM1 = "/RCR/cam1/image_raw"
+        private const val DEFAULT_TOPIC_CAM2 = "/RCR/cam2/image_raw"
+        private const val DEFAULT_TOPIC_CAM3 = "/RCR/cam3/image_raw"
+        private const val DEFAULT_TOPIC_CAM4 = "/RCR/cam4/image_raw"
+        private const val DEFAULT_TOPIC_FLIPPER_FRONT_LEFT = "/RCR/FLF/flipper_control"
+        private const val DEFAULT_TOPIC_FLIPPER_FRONT_RIGHT = "/RCR/FRF/flipper_control"
+        private const val DEFAULT_TOPIC_FLIPPER_BACK = "/RCR/BF/flipper_control"
 
         // Keys for SharedPreferences
         private const val KEY_ROSBRIDGE_URL = "rosbridge_url"
