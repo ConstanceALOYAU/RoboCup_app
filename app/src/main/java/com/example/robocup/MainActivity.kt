@@ -9,11 +9,13 @@ import android.util.Base64
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import org.json.JSONObject
-import android.widget.SeekBar
+import java.io.File
+import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
 
@@ -24,12 +26,14 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
     private lateinit var joystickView: JoystickView
     private lateinit var cameraTopics: List<String>
 
+    // Ajouter des TextView pour afficher les valeurs des sliders
+    private lateinit var textSliderAvantGauche: TextView
+    private lateinit var textSliderAvantDroit: TextView
+    private lateinit var textSliderArriere: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        // Supprimer le titre par défaut dans la Toolbar
-        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // Configurer la Toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -56,7 +60,7 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         }
 
         buttonTitle.setOnClickListener {
-            // Lancer "MainActivity"
+            // Rester sur "MainActivity"
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -82,9 +86,14 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         joystickView = findViewById(R.id.joystickView)
         joystickView.setJoystickListener(this)
 
+        // Associer les sliders et leurs TextView correspondants
         val sliderAvantGauche = findViewById<SeekBar>(R.id.sliderFrontLeft)
         val sliderAvantDroit = findViewById<SeekBar>(R.id.sliderFrontRight)
         val sliderArriere = findViewById<SeekBar>(R.id.sliderBack)
+
+        textSliderAvantGauche = findViewById(R.id.text_slider_front_left)
+        textSliderAvantDroit = findViewById(R.id.text_slider_front_right)
+        textSliderArriere = findViewById(R.id.text_slider_back)
 
         // Initialiser le client ROSBridge
         rosbridgeClient = RosbridgeClient(appConfig.rosbridgeUrl, this)
@@ -95,6 +104,7 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         // Gérer les événements des sliders
         sliderAvantGauche.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                textSliderAvantGauche.text = progress.toString() // Mettre à jour le TextView
                 sendFlipperCommand(appConfig.topicFlipperFrontLeft,"FLF", progress)
             }
 
@@ -104,6 +114,7 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
 
         sliderAvantDroit.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                textSliderAvantDroit.text = progress.toString() // Mettre à jour le TextView
                 sendFlipperCommand(appConfig.topicFlipperFrontRight,"FRF", progress)
             }
 
@@ -113,6 +124,7 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
 
         sliderArriere.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                textSliderArriere.text = progress.toString() // Mettre à jour le TextView
                 sendFlipperCommand(appConfig.topicFlipperBack,"BF", progress)
             }
 
@@ -124,7 +136,6 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         Handler(Looper.getMainLooper()).postDelayed({
             subscribeToCameraTopics()
         }, 1000)
-        //subscribeToCameraTopics()
     }
 
     override fun onJoystickMoved(xPercent: Float, yPercent: Float) {
@@ -150,6 +161,24 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         }
     }
 
+    private fun saveAndDisplayImage(imageString: String, imageView: ImageView) {
+        try {
+            val imageData = Base64.decode(imageString, Base64.DEFAULT)
+            val file = File(getExternalFilesDir(null), "image.jpg")
+
+            // Sauvegarder l'image en tant que fichier JPEG
+            FileOutputStream(file).use { it.write(imageData) }
+
+            // Charger l'image sauvegardée et l'afficher
+            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+            runOnUiThread {
+                imageView.setImageBitmap(bitmap)
+            }
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error saving or displaying image: ${e.message}")
+        }
+    }
+
     private fun subscribeToCameraTopic(topic: String, imageView: ImageView) {
         val subscribeMessage = JSONObject().apply {
             put("op", "subscribe")
@@ -165,20 +194,7 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
                     val msg = jsonMessage.getJSONObject("msg")
                     if (msg.has("data")) {
                         val imageString = msg.getString("data")
-                        val imageData = Base64.decode(imageString, Base64.DEFAULT)
-
-                        if (imageData != null && imageData.isNotEmpty()) {
-                            val bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
-                            if (bitmap != null) {
-                                runOnUiThread {
-                                    imageView.setImageBitmap(bitmap)
-                                }
-                            } else {
-                                Log.e("Bitmap", "Échec du décodage de l'image, bitmap est nul.")
-                            }
-                        } else {
-                            Log.e("ImageData", "Les données décodées sont vides ou nulles.")
-                        }
+                        saveAndDisplayImage(imageString, imageView)
                     } else {
                         Log.d("Rosbridge", "Le message reçu ne contient pas de clé 'data'")
                     }
@@ -189,7 +205,6 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
                 Log.e("Rosbridge", "Erreur lors du traitement du message: ${e.message}")
             }
         }
-
     }
 
     private fun sendFlipperCommand(topic: String, flipper: String, angle: Int) {
@@ -201,10 +216,12 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         // Envoyer le message au topic ROSBridge
         rosbridgeClient.publish(topic, message.toString())
     }
-    fun updateRosBridgeConnexionStatus(status: Boolean){
+
+    fun updateRosBridgeConnexionStatus(status: Boolean) {
         val textString = "RosBridge URL: ${appConfig.rosbridgeUrl} Connected: $status"
         ipTextView.text = textString
     }
+
     override fun onDestroy() {
         super.onDestroy()
         rosbridgeClient.close()

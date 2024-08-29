@@ -8,7 +8,7 @@
     <include
         layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/ip"
@@ -23,9 +23,7 @@
         android:layout_marginRight="30dp"
         android:orientation="vertical">
 
-        <!-- Premier LinearLayout horizontal, occupe 50% de l'espace vertical -->
-
-        <!-- Deuxième LinearLayout horizontal, occupe 50% de l'espace vertical -->
+        <!-- Layout pour les caméras avant -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,6 +49,7 @@
                 android:src="@drawable/ic_cam_front_right" />
         </LinearLayout>
 
+        <!-- Layout pour les caméras arrière -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -71,11 +70,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:contentDescription="cam back Left"
+                android:contentDescription="cam back right"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_cam_back_right" />
         </LinearLayout>
 
+        <!-- Layout pour les sliders et le joystick -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -83,9 +83,10 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_height="fill_parent"
-                android:layout_width="0dp">
+                android:orientation="vertical">
 
                 <com.example.robocup.JoystickView
                     android:id="@+id/joystickView"
@@ -93,13 +94,14 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
+            <!-- Sliders avec TextViews en dessous -->
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                
+                <!-- Flipper Front Left -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -112,62 +114,95 @@
                         android:textSize="14sp"
                         android:layout_gravity="center"
                         android:textColor="@android:color/white"
-                        android:text="Flipper Front Left "/>
+                        android:text="Flipper Front Left" />
 
                     <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
                         android:id="@+id/sliderFrontLeft"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
                         android:min="-180"
                         android:max="180"
-                        android:progress="0"/>
+                        android:progress="0" />
+
+                    <TextView
+                        android:id="@+id/text_slider_front_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:layout_gravity="center"
+                        android:textColor="@android:color/white"
+                        android:text="0" />
                 </LinearLayout>
 
-
+                <!-- Flipper Front Right -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:layout_weight="1">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:textColor="@android:color/white"
                         android:layout_gravity="center"
-                        android:text=" Flipper Front Right "/>
+                        android:textColor="@android:color/white"
+                        android:text="Flipper Front Right" />
 
                     <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
                         android:id="@+id/sliderFrontRight"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
                         android:min="-180"
                         android:max="180"
-                        android:progress="0"/>
+                        android:progress="0" />
+
+                    <TextView
+                        android:id="@+id/text_slider_front_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:layout_gravity="center"
+                        android:textColor="@android:color/white"
+                        android:text="0" />
                 </LinearLayout>
 
-
+                <!-- Flipper Back -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:layout_weight="1">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
                         android:layout_gravity="center"
                         android:textColor="@android:color/white"
-                        android:text=" Flipper Back "/>
+                        android:text="Flipper Back" />
 
                     <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
                         android:id="@+id/sliderBack"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
                         android:min="-180"
                         android:max="180"
-                        android:progress="0"/>
+                        android:progress="0" />
+
+                    <TextView
+                        android:id="@+id/text_slider_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:layout_gravity="center"
+                        android:textColor="@android:color/white"
+                        android:text="0" />
                 </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
