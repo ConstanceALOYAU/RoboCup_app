@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
+import org.json.JSONObject
 
 class RosbridgeClient(private val url: String, private val activity: MainActivity) {
 
@@ -13,6 +14,21 @@ class RosbridgeClient(private val url: String, private val activity: MainActivit
     private var isConnected = false
     private val reconnectDelay = 5000L // 5 secondes
     private var messageReceivedListener: ((String) -> Unit)? = null
+    private val listeners = mutableMapOf<String, (String) -> Unit>()
+
+
+    fun addListener(topic: String, listener: (String) -> Unit) {
+        listeners[topic] = listener
+    }
+
+    private fun handleMessage(message: String) {
+        val jsonMessage = JSONObject(message)
+        if (jsonMessage.has("topic")) {
+            val topic = jsonMessage.getString("topic")
+            listeners[topic]?.invoke(message)
+        }
+    }
+
 
     fun connect() {
         client = OkHttpClient.Builder()
@@ -33,11 +49,16 @@ class RosbridgeClient(private val url: String, private val activity: MainActivit
                 // Aucun abonnement automatique ici, tout est géré par l'activité
             }
 
-            override fun onMessage(webSocket: WebSocket, text: String) {
+            /*override fun onMessage(webSocket: WebSocket, text: String) {
                 super.onMessage(webSocket, text)
                 Log.d("RosbridgeClient", "Message received: $text")
                 // Appel du listener pour traiter le message reçu
-                messageReceivedListener?.invoke(text)
+
+            }*/
+
+            override fun onMessage(webSocket: WebSocket, text: String) {
+                Log.d("RosbridgeClient", "Message received: $text")
+                handleMessage(text)
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {

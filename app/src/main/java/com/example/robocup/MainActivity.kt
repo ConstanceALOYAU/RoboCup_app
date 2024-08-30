@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.Message
 import android.util.Base64
 import android.util.Log
 import android.widget.Button
@@ -157,29 +158,13 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
 
     private fun subscribeToCameraTopics() {
         for (i in cameraTopics.indices) {
-            subscribeToCameraTopic(cameraTopics[i], imageViews[i])
+            val topic = cameraTopics[i]
+            val imageView = imageViews[i]
+            subscribeToCameraTopic(topic, imageView)
         }
     }
 
-    private fun saveAndDisplayImage(imageString: String, imageView: ImageView) {
-        try {
-            val imageData = Base64.decode(imageString, Base64.DEFAULT)
-            val file = File(getExternalFilesDir(null), "image.jpg")
-
-            // Sauvegarder l'image en tant que fichier JPEG
-            FileOutputStream(file).use { it.write(imageData) }
-
-            // Charger l'image sauvegardée et l'afficher
-            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-            runOnUiThread {
-                imageView.setImageBitmap(bitmap)
-            }
-        } catch (e: Exception) {
-            Log.e("MainActivity", "Error saving or displaying image: ${e.message}")
-        }
-    }
-
-    private fun subscribeToCameraTopic(topic: String, imageView: ImageView) {
+    /*private fun subscribeToCameraTopic(topic: String, imageView: ImageView) {
         val subscribeMessage = JSONObject().apply {
             put("op", "subscribe")
             put("topic", topic)
@@ -188,22 +173,61 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         rosbridgeClient.sendMessage(subscribeMessage.toString())
 
         rosbridgeClient.setOnMessageReceivedListener { message: String ->
-            try {
-                val jsonMessage = JSONObject(message)
-                if (jsonMessage.has("msg")) {
-                    val msg = jsonMessage.getJSONObject("msg")
-                    if (msg.has("data")) {
-                        val imageString = msg.getString("data")
-                        saveAndDisplayImage(imageString, imageView)
-                    } else {
-                        Log.d("Rosbridge", "Le message reçu ne contient pas de clé 'data'")
-                    }
-                } else {
-                    Log.d("Rosbridge", "Le message reçu ne contient pas de clé 'msg'")
+            var jsonMessage = JSONObject(message)
+            Log.d("MainActivity","Message:: \n"+message)
+
+            if (jsonMessage.has("msg")) {
+                jsonMessage = jsonMessage.getJSONObject("msg")
+                if (jsonMessage.has("data")) {
+                    val imageString = jsonMessage.getString("data")
+                    //Log.d("MainActivity","DATA:: \n $imageString")
+                    Log.d("MainActivity","Image View:: \n ${imageView.id}")
+
+                    displayImage(imageString, imageView)
                 }
-            } catch (e: Exception) {
-                Log.e("Rosbridge", "Erreur lors du traitement du message: ${e.message}")
             }
+        }
+    }
+    */
+    private fun subscribeToCameraTopic(topic: String, imageView: ImageView) {
+        val subscribeMessage = JSONObject().apply {
+            put("op", "subscribe")
+            put("topic", topic)
+        }
+
+        rosbridgeClient.sendMessage(subscribeMessage.toString())
+
+        // Ajouter un listener spécifique pour chaque topic
+        rosbridgeClient.addListener(topic) { message: String ->
+            handleMessage(message, topic, imageView)
+        }
+    }
+
+
+    private fun handleMessage(message: String, topic: String, imageView: ImageView) {
+        var jsonMessage = JSONObject(message)
+        Log.d("MainActivity", "Message from $topic: \n$message")
+
+        if (jsonMessage.has("msg")) {
+            jsonMessage = jsonMessage.getJSONObject("msg")
+            if (jsonMessage.has("data")) {
+                val imageString = jsonMessage.getString("data")
+                displayImage(imageString, imageView)
+            }
+        }
+    }
+
+
+    private fun displayImage(imageString: String, imageView: ImageView) {
+        try {
+            val imageData = Base64.decode(imageString, Base64.DEFAULT)
+            val bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
+
+            runOnUiThread {
+                imageView.setImageBitmap(bitmap)
+            }
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error decoding and displaying image: ${e.message}")
         }
     }
 
