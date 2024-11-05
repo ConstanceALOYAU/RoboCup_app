@@ -1,0 +1,191 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- ROSBridge URL -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ROSBridge URL"
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <EditText
+            android:id="@+id/edit_rosbridge_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textUri"
+            android:hint="Enter ROSBridge URL"
+            android:textColor="?android:attr/textColorPrimary"
+            android:background="?android:attr/editTextBackground" />
+
+        <!-- Topic Joy -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Topic Joy"
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <EditText
+            android:id="@+id/edit_topic_joy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Enter Topic Joy"
+            android:textColor="?android:attr/textColorPrimary"
+            android:background="?android:attr/editTextBackground" />
+
+        <!-- Topic Cam 1 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Topic Cam 1"
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <EditText
+            android:id="@+id/edit_topic_cam1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Enter Topic Cam 1"
+            android:textColor="?android:attr/textColorPrimary"
+            android:background="?android:attr/editTextBackground" />
+
+        <!-- Topic Cam 2 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Topic Cam 2"
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <EditText
+            android:id="@+id/edit_topic_cam2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Enter Topic Cam 2"
+            android:textColor="?android:attr/textColorPrimary"
+            android:background="?android:attr/editTextBackground" />
+
+        <!-- Topic Cam 3 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Topic Cam 3"
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <EditText
+            android:id="@+id/edit_topic_cam3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Enter Topic Cam 3"
+            android:textColor="?android:attr/textColorPrimary"
+            android:background="?android:attr/editTextBackground" />
+
+        <!-- Topic Cam 4 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Topic Cam 4"
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <EditText
+            android:id="@+id/edit_topic_cam4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Enter Topic Cam 4"
+            android:textColor="?android:attr/textColorPrimary"
+            android:background="?android:attr/editTextBackground" />
+
+        <!-- Topic Flipper Front Left -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Topic Flipper Front Left"
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <EditText
+            android:id="@+id/edit_topic_flipper_front_left"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Enter Topic Flipper Front Left"
+            android:textColor="?android:attr/textColorPrimary"
+            android:background="?android:attr/editTextBackground" />
+
+        <!-- Topic Flipper Front Right -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Topic Flipper Front Right"
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <EditText
+            android:id="@+id/edit_topic_flipper_front_right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Enter Topic Flipper Front Right"
+            android:textColor="?android:attr/textColorPrimary"
+            android:background="?android:attr/editTextBackground" />
+
+        <!-- Topic Flipper Back -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Topic Flipper Back"
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <EditText
+            android:id="@+id/edit_topic_flipper_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Enter Topic Flipper Back"
+            android:textColor="?android:attr/textColorPrimary"
+            android:background="?android:attr/editTextBackground" />
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textColor="?android:attr/textColorPrimaryInverse"
+            android:background="?attr/selectableItemBackground"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+</ScrollView>
