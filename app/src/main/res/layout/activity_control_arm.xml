@@ -1,29 +1,49 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <!-- Toolbar -->
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content" />
 
-    <!-- ImageView centrée avec marges -->
-    <ImageView
-        android:id="@+id/armImageView"
-        android:layout_width="0dp"
+    <!-- Section pour les images superposées -->
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="100dp"
-        android:contentDescription="Image camera"
-        android:src="@drawable/camera_bras"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        app:layout_constraintHorizontal_bias="0.5" />
+        android:layout_weight="1"
+        android:layout_margin="100dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Image principale en arrière-plan -->
+        <ImageView
+            android:id="@+id/armImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Image principale"
+            android:scaleType="centerCrop"
+            android:src="@drawable/camera_bras" />
+
+        <!-- Image au premier plan -->
+        <ImageView
+            android:id="@+id/topImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="Image au premier plan"
+            android:src="@drawable/hud_ring_inner" />
+
+        <!-- Image au premier plan -->
+        <ImageView
+            android:id="@+id/top2ImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="Image2 au premier plan"
+            android:src="@drawable/hud_ring" />
+    </FrameLayout>
+
+</LinearLayout>
