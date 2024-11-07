@@ -1,9 +1,6 @@
 package com.example.robocup
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
@@ -15,26 +12,6 @@ class ControlArmActivity : AppCompatActivity() {
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        // Supprimer le titre par défaut dans la Toolbar
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
-        val buttonOne = findViewById<ImageView>(R.id.button_one)
-        val buttonTwo = findViewById<ImageView>(R.id.button_two)
-        val buttonTitle = findViewById<Button>(R.id.button_title)
-
-        buttonOne.setOnClickListener {
-            val intent = Intent(this, ControlArmActivity::class.java)
-            startActivity(intent)
-        }
-
-        buttonTwo.setOnClickListener {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
-        }
-
-        buttonTitle.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
     }
 }
