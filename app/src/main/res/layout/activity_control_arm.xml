@@ -1,7 +1,10 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:ignore="ExtraText">
 
     <!-- Toolbar -->
     <include
@@ -51,35 +54,99 @@
 
     </FrameLayout>
 
-    <!-- Layout pour les boutons en bas à droite de l'image -->
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <!-- FrameLayout contenant les boutons en bas à droite de l'écran -->
+    <FrameLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@id/imageContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp">
 
-        <!-- Bouton Roll Left avec taille ajustée -->
-        <ImageButton
-            android:id="@+id/btnRollLeft"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/ic_roll_left"
-            android:contentDescription="Rouler à gauche"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="fitCenter" />
+        <!-- LinearLayout principal pour organiser les boutons verticalement -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <!-- Bouton Roll Right avec taille ajustée -->
-        <ImageButton
-            android:id="@+id/btnRollRight"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/ic_roll_right"
-            android:contentDescription="Rouler à droite"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="fitCenter" />
+            <!-- Layout pour les boutons Roll -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <ImageButton
+                    android:id="@+id/btnRollLeft"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_roll_left"
+                    android:contentDescription="Roll Left"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    android:layout_marginEnd="4dp" />
+
+                <ImageButton
+                    android:id="@+id/btnRollRight"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_roll_right"
+                    android:contentDescription="Roll Right"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+            <!-- Bouton Push Up, centré sous les boutons Roll -->
+            <ImageButton
+                android:id="@+id/btnPushUp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/ic_pushup"
+                android:contentDescription="Push Up"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="4dp" />
+
+            <!-- Layout pour les boutons Yaw, centré en dessous de Push Up -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+                <ImageButton
+                    android:id="@+id/btnYawLeft"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/ic_yalm_left"
+                    android:contentDescription="Yaw Left"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    android:layout_marginEnd="4dp" />
+
+                <ImageButton
+                    android:id="@+id/btnYawRight"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/ic_yalm_right"
+                    android:contentDescription="Yaw Right"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+            <!-- Bouton Push Down, centré en bas -->
+            <ImageButton
+                android:id="@+id/btnPushDown"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/ic_push_down"
+                android:contentDescription="Push Down"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
