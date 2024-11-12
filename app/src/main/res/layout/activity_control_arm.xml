@@ -57,7 +57,7 @@
     <!-- FrameLayout contenant les boutons en bas à droite de l'écran -->
     <FrameLayout
         android:id="@+id/buttonContainer"
-        android:layout_width="200dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,80 +72,80 @@
 
             <!-- Layout pour les boutons Roll -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/btnRollLeft"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/ic_roll_left"
                     android:contentDescription="Roll Left"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:scaleType="fitCenter"
-                    android:layout_marginEnd="4dp" />
+                    android:layout_marginStart="0dp"/>
 
                 <ImageButton
                     android:id="@+id/btnRollRight"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/ic_roll_right"
                     android:contentDescription="Roll Right"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:scaleType="fitCenter"
-                    android:layout_marginStart="4dp" />
+                    android:layout_marginStart="100dp"/>
             </LinearLayout>
 
             <!-- Bouton Push Up, centré sous les boutons Roll -->
             <ImageButton
                 android:id="@+id/btnPushUp"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
                 android:src="@drawable/ic_pushup"
                 android:contentDescription="Push Up"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:scaleType="fitCenter"
-                android:layout_marginTop="4dp" />
+                android:scaleType="fitCenter" />
 
-            <!-- Layout pour les boutons Yaw, centré en dessous de Push Up -->
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <!-- FrameLayout pour les boutons Yaw, ajusté pour éviter la coupe -->
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp">
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="-20dp">
 
                 <ImageButton
                     android:id="@+id/btnYawLeft"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
                     android:src="@drawable/ic_yalm_left"
                     android:contentDescription="Yaw Left"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:scaleType="fitCenter"
-                    android:layout_marginEnd="4dp" />
+                    android:layout_marginStart="0dp"/>
 
                 <ImageButton
                     android:id="@+id/btnYawRight"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
                     android:src="@drawable/ic_yalm_right"
                     android:contentDescription="Yaw Right"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:scaleType="fitCenter"
-                    android:layout_marginStart="4dp" />
-            </LinearLayout>
+                    android:layout_marginStart="200dp" />
+            </FrameLayout>
 
             <!-- Bouton Push Down, centré en bas -->
             <ImageButton
                 android:id="@+id/btnPushDown"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
                 android:src="@drawable/ic_push_down"
                 android:contentDescription="Push Down"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="fitCenter"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="8dp"
+                android:translationY="-35dp" />
         </LinearLayout>
     </FrameLayout>
 
