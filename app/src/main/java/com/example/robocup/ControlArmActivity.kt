@@ -15,7 +15,6 @@ class ControlArmActivity : AppCompatActivity() {
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        // Supprimer le titre par défaut dans la Toolbar
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val buttonOne = findViewById<ImageView>(R.id.button_one)

@@ -36,7 +36,7 @@ class JoystickView @JvmOverloads constructor(
     }
 
     private val paintBackground = Paint().apply {
-        color = Color.GRAY
+        color = Color.WHITE
         style = Paint.Style.FILL
     }
 
