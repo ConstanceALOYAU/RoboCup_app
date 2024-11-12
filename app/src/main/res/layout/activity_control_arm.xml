@@ -56,7 +56,7 @@
 
     <!-- FrameLayout contenant les boutons en bas à droite de l'écran -->
     <FrameLayout
-        android:id="@+id/buttonContainer"
+        android:id="@+id/buttonContainerRight"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -142,6 +142,101 @@
                 android:layout_height="100dp"
                 android:src="@drawable/ic_push_down"
                 android:contentDescription="Push Down"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="8dp"
+                android:translationY="-35dp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- FrameLayout contenant les boutons en bas à gauche de l'écran -->
+    <FrameLayout
+        android:id="@+id/buttonContainerLeft"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp">
+
+        <!-- LinearLayout principal pour organiser les boutons verticalement -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Layout pour les boutons Vitesse -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnVitesseMoins"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/ic_vitesse_moins"
+                    android:contentDescription="Vitesse Moins"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    android:layout_marginStart="0dp"/>
+
+                <ImageButton
+                    android:id="@+id/btnVitessePlus"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/ic_vitesse_plus"
+                    android:contentDescription="Vitesse Plus"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    android:layout_marginStart="100dp"/>
+            </LinearLayout>
+
+            <!-- Bouton Translate Up-->
+            <ImageButton
+                android:id="@+id/btnTranslateUp"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_translate_up"
+                android:contentDescription="Translate Up"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitCenter" />
+
+            <!-- FrameLayout pour les boutons Translate -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="-20dp">
+
+                <ImageButton
+                    android:id="@+id/btnTranslateLeft"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/ic_translate_left"
+                    android:contentDescription="Translate Left"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    android:layout_marginStart="0dp"/>
+
+                <ImageButton
+                    android:id="@+id/btnTranslateRight"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/ic_translate_right"
+                    android:contentDescription="Translate Right"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    android:layout_marginStart="200dp" />
+            </FrameLayout>
+
+            <!-- Bouton Translate Down-->
+            <ImageButton
+                android:id="@+id/btnTranslateDown"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_translate_down"
+                android:contentDescription="Translate Down"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="fitCenter"
                 android:layout_marginTop="8dp"

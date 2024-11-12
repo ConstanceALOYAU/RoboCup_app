@@ -5,7 +5,7 @@
     <color name="robocup_primary">#1A237E</color> <!-- Bleu profond, symbolisant la technologie et la précision -->
     <color name="robocup_primary_dark">#0D47A1</color> <!-- Bleu encore plus sombre pour les zones de navigation -->
     <color name="robocup_accent">#FFC107</color> <!-- Jaune vif pour attirer l'attention sur les éléments interactifs -->
-    <color name="robocup_background">#212121</color> <!-- Gris foncé pour un fond moderne et élégant -->
+    <color name="robocup_background">#9E9FA5</color> <!-- Gris foncé pour un fond moderne et élégant -->
     <color name="robocup_text">#FFFFFF</color> <!-- Texte blanc pour contraster avec le fond sombre -->
     <color name="robocup_text_secondary">#B0BEC5</color> <!-- Texte secondaire, légèrement moins contrasté -->
 
