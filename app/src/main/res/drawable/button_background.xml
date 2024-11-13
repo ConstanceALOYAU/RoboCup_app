@@ -1,0 +1,15 @@
+<!-- res/drawable/rounded_button_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Couleur de fond du bouton -->
+    <solid android:color="#0D47A1" /> <!-- Modifiez avec la couleur souhaitée -->
+
+    <!-- Bords arrondis -->
+    <corners android:radius="20dp" /> <!-- Ajustez la valeur de rayon pour les coins -->
+
+    <!-- Bordure (facultatif) -->
+    <stroke
+        android:width="2dp"
+        android:color="#000000" /> <!-- Modifiez avec la couleur souhaitée -->
+</shape>
