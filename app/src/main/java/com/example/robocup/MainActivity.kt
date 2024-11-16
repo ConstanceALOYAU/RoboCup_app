@@ -139,6 +139,15 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         }, 1000)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (!rosbridgeClient.getIsConnected()) {
+            rosbridgeClient.connect() // Rétablir la connexion si elle a été fermée
+        }
+        subscribeToCameraTopics() // Réabonnement
+    }
+
+
     override fun onJoystickMoved(xPercent: Float, yPercent: Float) {
         // Appeler la méthode pour envoyer les valeurs du joystick via ROSBridge
         sendJoystickDirection(xPercent, yPercent)
@@ -164,36 +173,12 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         }
     }
 
-    /*private fun subscribeToCameraTopic(topic: String, imageView: ImageView) {
-        val subscribeMessage = JSONObject().apply {
-            put("op", "subscribe")
-            put("topic", topic)
-        }
-
-        rosbridgeClient.sendMessage(subscribeMessage.toString())
-
-        rosbridgeClient.setOnMessageReceivedListener { message: String ->
-            var jsonMessage = JSONObject(message)
-            Log.d("MainActivity","Message:: \n"+message)
-
-            if (jsonMessage.has("msg")) {
-                jsonMessage = jsonMessage.getJSONObject("msg")
-                if (jsonMessage.has("data")) {
-                    val imageString = jsonMessage.getString("data")
-                    //Log.d("MainActivity","DATA:: \n $imageString")
-                    Log.d("MainActivity","Image View:: \n ${imageView.id}")
-
-                    displayImage(imageString, imageView)
-                }
-            }
-        }
-    }
-    */
     private fun subscribeToCameraTopic(topic: String, imageView: ImageView) {
         val subscribeMessage = JSONObject().apply {
             put("op", "subscribe")
             put("topic", topic)
         }
+
 
         rosbridgeClient.sendMessage(subscribeMessage.toString())
 
@@ -202,7 +187,6 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
             handleMessage(message, topic, imageView)
         }
     }
-
 
     private fun handleMessage(message: String, topic: String, imageView: ImageView) {
         var jsonMessage = JSONObject(message)
@@ -246,8 +230,12 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         ipTextView.text = textString
     }
 
+    //Désabonnement topic
     override fun onDestroy() {
+        for (i in cameraTopics.indices) {
+            rosbridgeClient.unsubscribe(cameraTopics[i])
+        }
         super.onDestroy()
-        rosbridgeClient.close()
+        // rosbridgeClient.close()
     }
 }
