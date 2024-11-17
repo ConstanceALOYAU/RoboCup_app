@@ -17,9 +17,13 @@ class AppConfig(context: Context) {
         private const val DEFAULT_TOPIC_CAM2 = "/RCR/cam2/image_raw"
         private const val DEFAULT_TOPIC_CAM3 = "/RCR/cam3/image_raw"
         private const val DEFAULT_TOPIC_CAM4 = "/RCR/cam4/image_raw"
+        private const val DEFAULT_TOPIC_ARMCAM = "/RCR/armcam/image_raw"
+        private const val DEFAULT_TOPIC_ARM_CONTROL = "/RCR/ARM/arm_control"
+        private const val DEFAULT_TOPIC_ARM_STATUS = "/RCR/ARM/arm_status"
         private const val DEFAULT_TOPIC_FLIPPER_FRONT_LEFT = "/RCR/FLF/flipper_control"
         private const val DEFAULT_TOPIC_FLIPPER_FRONT_RIGHT = "/RCR/FRF/flipper_control"
         private const val DEFAULT_TOPIC_FLIPPER_BACK = "/RCR/BF/flipper_control"
+
 
         // Keys for SharedPreferences
         private const val KEY_ROSBRIDGE_URL = "rosbridge_url"
@@ -28,6 +32,11 @@ class AppConfig(context: Context) {
         private const val KEY_TOPIC_CAM2 = "topic_cam2"
         private const val KEY_TOPIC_CAM3 = "topic_cam3"
         private const val KEY_TOPIC_CAM4 = "topic_cam4"
+        private const val KEY_TOPIC_ARMCAM = "topic_armcam"
+        private const val KEY_TOPIC_ARM_CONTROL = "topic_arm_control"
+        private const val KEY_TOPIC_ARM_STATUS = "topic_arm_status"
+
+
         private const val KEY_TOPIC_FLIPPER_FRONT_LEFT = "topic_flipper_front_left"
         private const val KEY_TOPIC_FLIPPER_FRONT_RIGHT = "topic_flipper_front_right"
         private const val KEY_TOPIC_FLIPPER_BACK = "topic_flipper_back"
@@ -67,6 +76,24 @@ class AppConfig(context: Context) {
         get() = preferences.getString(KEY_TOPIC_CAM4, DEFAULT_TOPIC_CAM4) ?: DEFAULT_TOPIC_CAM4
         set(value) {
             preferences.edit().putString(KEY_TOPIC_CAM4, value).apply()
+        }
+
+    var topic_armcam: String
+        get() = preferences.getString(KEY_TOPIC_ARMCAM, DEFAULT_TOPIC_ARMCAM) ?: DEFAULT_TOPIC_ARMCAM
+        set(value) {
+            preferences.edit().putString(KEY_TOPIC_ARMCAM, value).apply()
+        }
+
+    var topic_arm_control: String
+        get() = preferences.getString(KEY_TOPIC_ARM_CONTROL, DEFAULT_TOPIC_ARM_CONTROL) ?: DEFAULT_TOPIC_ARM_CONTROL
+        set(value) {
+            preferences.edit().putString(KEY_TOPIC_ARM_CONTROL, value).apply()
+        }
+
+    var topic_arm_status: String
+        get() = preferences.getString(KEY_TOPIC_ARM_STATUS, DEFAULT_TOPIC_ARM_STATUS) ?: DEFAULT_TOPIC_ARM_STATUS
+        set(value) {
+            preferences.edit().putString(KEY_TOPIC_ARM_STATUS, value).apply()
         }
 
     var topicFlipperFrontLeft: String

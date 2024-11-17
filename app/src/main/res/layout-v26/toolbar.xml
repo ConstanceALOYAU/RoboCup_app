@@ -11,7 +11,7 @@
 
     <!-- Bouton 1 : Bras robotique à gauche -->
     <ImageView
-        android:id="@+id/button_one"
+        android:id="@+id/button_arm_activity"
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:layout_gravity="start"
@@ -22,7 +22,7 @@
 
     <!-- Titre centré qui est aussi un bouton -->
     <Button
-        android:id="@+id/button_title"
+        android:id="@+id/button_main_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -36,7 +36,7 @@
 
     <!-- Bouton 2 : Roue dentée à droite -->
     <ImageView
-        android:id="@+id/button_two"
+        android:id="@+id/button_setting_activity"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_gravity="end"

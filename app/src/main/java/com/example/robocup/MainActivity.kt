@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.Message
 import android.util.Base64
 import android.util.Log
 import android.widget.Button
@@ -15,8 +14,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import org.json.JSONObject
-import java.io.File
-import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
 
@@ -36,31 +33,31 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Configurer la Toolbar
+        // Configure la Toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         // Supprimer le titre par défaut dans la Toolbar
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // Boutons de la Toolbar
-        val buttonOne = findViewById<ImageView>(R.id.button_one)
-        val buttonTwo = findViewById<ImageView>(R.id.button_two)
-        val buttonTitle = findViewById<Button>(R.id.button_title)
+        val buttonArmActivity = findViewById<ImageView>(R.id.button_arm_activity)
+        val buttonMainActivity = findViewById<Button>(R.id.button_main_activity)
+        val buttonSettingsActivity = findViewById<ImageView>(R.id.button_setting_activity)
 
         // Configurer les clics des boutons
-        buttonOne.setOnClickListener {
+        buttonArmActivity.setOnClickListener {
             // Lancer "ControlArmActivity"
             val intent = Intent(this, ControlArmActivity::class.java)
             startActivity(intent)
         }
 
-        buttonTwo.setOnClickListener {
+        buttonMainActivity.setOnClickListener {
             // Lancer "SettingsActivity"
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
 
-        buttonTitle.setOnClickListener {
+        buttonSettingsActivity.setOnClickListener {
             // Rester sur "MainActivity"
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -97,8 +94,7 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         textSliderArriere = findViewById(R.id.text_slider_back)
 
         // Initialiser le client ROSBridge
-        rosbridgeClient = RosbridgeClient(appConfig.rosbridgeUrl, this)
-        rosbridgeClient.connect()
+        rosbridgeClient = RosbridgeClientManager.getInstance(this)
         val textString = "RosBridge URL: ${appConfig.rosbridgeUrl} Connected: ${rosbridgeClient.getIsConnected()}"
         ipTextView.text = textString
 
@@ -136,7 +132,7 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         // Souscrire aux topics des caméras
         Handler(Looper.getMainLooper()).postDelayed({
             subscribeToCameraTopics()
-        }, 1000)
+        }, 500)
     }
 
     override fun onResume() {
@@ -144,7 +140,11 @@ class MainActivity : AppCompatActivity(), JoystickView.JoystickListener {
         if (!rosbridgeClient.getIsConnected()) {
             rosbridgeClient.connect() // Rétablir la connexion si elle a été fermée
         }
-        subscribeToCameraTopics() // Réabonnement
+
+        // Souscrire aux topics des caméras
+        Handler(Looper.getMainLooper()).postDelayed({
+            subscribeToCameraTopics()
+        }, 500)
     }
 
 

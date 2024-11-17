@@ -124,6 +124,63 @@
             android:textColor="?android:attr/textColorPrimary"
             android:background="?android:attr/editTextBackground" />
 
+
+
+        <!-- Topic Arm Cam  -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Topic Arm Cam"
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <EditText
+            android:id="@+id/edit_topic_cam_arm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Enter Topic cam Arm 4"
+            android:textColor="?android:attr/textColorPrimary"
+            android:background="?android:attr/editTextBackground" />
+
+        <!-- Topic Arm Control -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Topic Arm Control"
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <EditText
+            android:id="@+id/edit_topic_arm_control"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Enter Topic Arm Control"
+            android:textColor="?android:attr/textColorPrimary"
+            android:background="?android:attr/editTextBackground" />
+
+        <!-- Topic Arm Satus -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Topic Arm Status"
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <EditText
+            android:id="@+id/edit_topic_arm_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Enter Topic Arm Status"
+            android:textColor="?android:attr/textColorPrimary"
+            android:background="?android:attr/editTextBackground" />
+
+
         <!-- Topic Flipper Front Left -->
         <TextView
             android:layout_width="wrap_content"

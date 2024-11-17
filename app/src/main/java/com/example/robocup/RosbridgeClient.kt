@@ -3,11 +3,12 @@ package com.example.robocup
 import okhttp3.*
 import java.util.concurrent.TimeUnit
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import org.json.JSONObject
 
-class RosbridgeClient(private val url: String, private val activity: MainActivity) {
+class RosbridgeClient(private val url: String, private val activity: AppCompatActivity) {
 
     private lateinit var client: OkHttpClient
     private lateinit var ws: WebSocket
@@ -44,17 +45,10 @@ class RosbridgeClient(private val url: String, private val activity: MainActivit
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 super.onOpen(webSocket, response)
                 isConnected = true
-                activity.updateRosBridgeConnexionStatus(isConnected)
                 Log.d("RosbridgeClient", "Connected to ROSBRIDGE")
                 // Aucun abonnement automatique ici, tout est géré par l'activité
             }
 
-            /*override fun onMessage(webSocket: WebSocket, text: String) {
-                super.onMessage(webSocket, text)
-                Log.d("RosbridgeClient", "Message received: $text")
-                // Appel du listener pour traiter le message reçu
-
-            }*/
 
             override fun onMessage(webSocket: WebSocket, text: String) {
                 Log.d("RosbridgeClient", "Message received: $text")

@@ -22,24 +22,22 @@ class SettingsActivity : AppCompatActivity() {
         // Supprimer le titre par défaut dans la Toolbar
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val buttonOne = findViewById<ImageView>(R.id.button_one)
-        val buttonTwo = findViewById<ImageView>(R.id.button_two)
-        val buttonTitle = findViewById<Button>(R.id.button_title)
+        // Boutons de la Toolbar
+        val buttonArmActivity = findViewById<ImageView>(R.id.button_arm_activity)
+        val buttonMainActivity = findViewById<Button>(R.id.button_main_activity)
+        val buttonSettingsActivity = findViewById<ImageView>(R.id.button_setting_activity)
 
-        buttonOne.setOnClickListener {
-            val intent = Intent(this, ControlArmActivity::class.java)
-            startActivity(intent)
+        // Configurer les clics des boutons
+        buttonArmActivity.setOnClickListener { // Lancer "ControlArmActivity"
+            val intent = Intent(this, ControlArmActivity::class.java); startActivity(intent)
+        }
+        buttonMainActivity.setOnClickListener { // Lancer "SettingsActivity"
+            val intent = Intent(this, SettingsActivity::class.java); startActivity(intent)
+        }
+        buttonSettingsActivity.setOnClickListener { // Lancer sur "MainActivity"
+            val intent = Intent(this, MainActivity::class.java); startActivity(intent)
         }
 
-        buttonTwo.setOnClickListener {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
-        }
-
-        buttonTitle.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
 
         appConfig = AppConfig(this)
 
@@ -50,6 +48,9 @@ class SettingsActivity : AppCompatActivity() {
         val editTopicCam2: EditText = findViewById(R.id.edit_topic_cam2)
         val editTopicCam3: EditText = findViewById(R.id.edit_topic_cam3)
         val editTopicCam4: EditText = findViewById(R.id.edit_topic_cam4)
+        val editTopicCamArm: EditText = findViewById(R.id.edit_topic_cam_arm)
+        val editTopicArmControl: EditText = findViewById(R.id.edit_topic_arm_control)
+        val editTopicArmStatus: EditText = findViewById(R.id.edit_topic_arm_status)
         val editTopicFlipperFrontLeft: EditText = findViewById(R.id.edit_topic_flipper_front_left)
         val editTopicFlipperFrontRight: EditText = findViewById(R.id.edit_topic_flipper_front_right)
         val editTopicFlipperBack: EditText = findViewById(R.id.edit_topic_flipper_back)
@@ -62,6 +63,10 @@ class SettingsActivity : AppCompatActivity() {
         editTopicCam2.setText(appConfig.topicCam2)
         editTopicCam3.setText(appConfig.topicCam3)
         editTopicCam4.setText(appConfig.topicCam4)
+        editTopicCamArm.setText(appConfig.topic_armcam)
+        editTopicArmStatus.setText(appConfig.topic_arm_status)
+        editTopicArmControl.setText(appConfig.topic_arm_control)
+
         editTopicFlipperFrontLeft.setText(appConfig.topicFlipperFrontLeft)
         editTopicFlipperFrontRight.setText(appConfig.topicFlipperFrontRight)
         editTopicFlipperBack.setText(appConfig.topicFlipperBack)
@@ -74,6 +79,9 @@ class SettingsActivity : AppCompatActivity() {
             appConfig.topicCam2 = editTopicCam2.text.toString()
             appConfig.topicCam3 = editTopicCam3.text.toString()
             appConfig.topicCam4 = editTopicCam4.text.toString()
+            appConfig.topic_armcam = editTopicCamArm.text.toString()
+            appConfig.topic_arm_control = editTopicArmControl.text.toString()
+            appConfig.topic_arm_status = editTopicArmStatus.text.toString()
             appConfig.topicFlipperFrontLeft = editTopicFlipperFrontLeft.text.toString()
             appConfig.topicFlipperFrontRight = editTopicFlipperFrontRight.text.toString()
             appConfig.topicFlipperBack = editTopicFlipperBack.text.toString()
